@@ -1,0 +1,492 @@
+// Prisma schema for مدرسه‌یاری
+// Source of truth for this model: /docs/02-data-model.md (derived from the 12 spec PDFs)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Actors
+// ---------------------------------------------------------------------------
+
+enum UserRole {
+  CUSTOMER
+  DONOR
+  STUDENT
+  SCHOOL
+}
+
+model User {
+  id           String   @id @default(cuid())
+  phone        String   @unique
+  email        String?  @unique
+  passwordHash String?
+  role         UserRole @default(CUSTOMER)
+  isAdmin      Boolean  @default(false)
+  firstName    String
+  lastName     String
+  nationalId   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  studentProfile StudentProfile?
+  schoolProfile  SchoolProfile?
+
+  carts         Cart[]
+  orders        Order[]
+  contributions Contribution[]
+  creditGrants  CreditGrant[]
+
+  @@index([role])
+}
+
+model StudentProfile {
+  id            String        @id @default(cuid())
+  userId        String        @unique
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schoolId      String
+  school        SchoolProfile @relation(fields: [schoolId], references: [id])
+  grade         String
+  city          String
+  province      String
+  creditBalance Int           @default(0)
+  code          String        @unique
+
+  tokenLedgerEntries TokenLedger[]
+
+  @@index([schoolId])
+}
+
+model SchoolProfile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  code         String   @unique
+  province     String
+  city         String
+  address      String
+  postalCode   String?
+  level        String
+  studentCount Int?
+  contactName  String
+  contactPhone String
+  description  String?
+  verified     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  students           StudentProfile[]
+  needs              Need[]
+  schoolNeedRequests SchoolNeedRequest[]
+
+  @@index([province, city])
+}
+
+// ---------------------------------------------------------------------------
+// Catalog
+// ---------------------------------------------------------------------------
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  parentId    String?
+  parent      Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryToCategory")
+  icon        String?
+  sortOrder   Int        @default(0)
+  isActive    Boolean    @default(true)
+
+  products Product[]
+
+  @@index([parentId])
+}
+
+enum StockStatus {
+  IN_STOCK
+  LIMITED
+  BACKORDER
+  OUT_OF_STOCK
+}
+
+model Product {
+  id                       String      @id @default(cuid())
+  name                     String
+  slug                     String      @unique
+  categoryId               String
+  category                 Category    @relation(fields: [categoryId], references: [id])
+  shortDescription         String?
+  description              String
+  images                   String[]
+  priceToman               Int
+  compareAtPriceToman      Int?
+  creditPriceTokens        Int?
+  unit                     String
+  stockStatus              StockStatus @default(IN_STOCK)
+  stockQty                 Int         @default(0)
+  minOrderQty              Int         @default(1)
+  maxOrderQty              Int?
+  bulkOrderAvailable       Boolean     @default(false)
+  attributes               Json?
+  eligibleForStudentCredit Boolean     @default(false)
+  eligibleForSchoolBulk    Boolean     @default(false)
+  isActive                 Boolean     @default(true)
+  createdAt                DateTime    @default(now())
+  updatedAt                DateTime    @updatedAt
+
+  needLineItems         NeedLineItem[]
+  cartItems             CartItem[]
+  orderItems            OrderItem[]
+  inventoryReservations InventoryReservation[]
+
+  @@index([categoryId])
+  @@index([stockStatus])
+}
+
+// ---------------------------------------------------------------------------
+// Needs & contributions
+// ---------------------------------------------------------------------------
+
+enum BeneficiaryType {
+  STUDENT
+  SCHOOL
+}
+
+enum NeedStatus {
+  NEW
+  IN_PROGRESS
+  NEAR_COMPLETE
+  FULFILLED
+  CLOSED
+}
+
+model Need {
+  id                String          @id @default(cuid())
+  title             String
+  beneficiaryType   BeneficiaryType
+  studentGroupLabel String?
+  schoolId          String?
+  school            SchoolProfile?  @relation(fields: [schoolId], references: [id])
+  needType          String
+  province          String
+  city              String
+  description       String
+  whyItMatters      String?
+  beneficiaryMeta   Json?
+  status            NeedStatus      @default(NEW)
+  images            String[]
+  createdAt         DateTime        @default(now())
+  verifiedAt        DateTime?
+
+  lineItems     NeedLineItem[]
+  stories       Story[]
+  contributions Contribution[]
+
+  @@index([status])
+  @@index([beneficiaryType])
+  @@index([province, city])
+}
+
+model NeedLineItem {
+  id           String   @id @default(cuid())
+  needId       String
+  need         Need     @relation(fields: [needId], references: [id], onDelete: Cascade)
+  productId    String?
+  product      Product? @relation(fields: [productId], references: [id])
+  itemLabel    String
+  qtyNeeded    Int
+  qtyFulfilled Int      @default(0)
+  unit         String
+
+  contributions Contribution[]
+
+  @@index([needId])
+}
+
+enum ContributionType {
+  CASH_TO_CREDIT
+  DIRECT_GOODS
+  FULL_FULFILLMENT
+}
+
+enum ContributionStatus {
+  PENDING
+  CONFIRMED
+  FULFILLING
+  COMPLETED
+  CANCELLED
+}
+
+model Contribution {
+  id             String             @id @default(cuid())
+  needId         String
+  need           Need               @relation(fields: [needId], references: [id])
+  needLineItemId String?
+  needLineItem   NeedLineItem?      @relation(fields: [needLineItemId], references: [id])
+  userId         String
+  user           User               @relation(fields: [userId], references: [id])
+  type           ContributionType
+  qty            Int?
+  amountToman    Int?
+  tokensUsed     Int?
+  status         ContributionStatus @default(PENDING)
+  createdAt      DateTime           @default(now())
+
+  @@index([needId])
+  @@index([userId])
+}
+
+// ---------------------------------------------------------------------------
+// Credit / token system
+// ---------------------------------------------------------------------------
+
+model CreditGrant {
+  id              String   @id @default(cuid())
+  donorUserId     String
+  donorUser       User     @relation(fields: [donorUserId], references: [id])
+  amountToman     Int
+  tokensGranted   Int
+  targetStudentId String?
+  targetPoolId    String?
+  createdAt       DateTime @default(now())
+
+  tokenLedgerEntry TokenLedger?
+
+  @@index([donorUserId])
+}
+
+enum TokenLedgerReason {
+  GRANT
+  SPEND
+  REFUND
+}
+
+model TokenLedger {
+  id                   String            @id @default(cuid())
+  studentId            String
+  student              StudentProfile    @relation(fields: [studentId], references: [id])
+  delta                Int
+  reason               TokenLedgerReason
+  relatedOrderId       String?
+  relatedOrder         Order?            @relation(fields: [relatedOrderId], references: [id])
+  relatedCreditGrantId String?           @unique
+  relatedCreditGrant   CreditGrant?      @relation(fields: [relatedCreditGrantId], references: [id])
+  balanceAfter         Int
+  idempotencyKey       String            @unique
+  createdAt            DateTime          @default(now())
+
+  @@index([studentId])
+}
+
+// ---------------------------------------------------------------------------
+// Cart / checkout / orders
+// ---------------------------------------------------------------------------
+
+enum BuyerType {
+  DONOR
+  STUDENT
+  SCHOOL
+}
+
+model Cart {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  buyerType BuyerType
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  items CartItem[]
+
+  @@index([userId])
+}
+
+model CartItem {
+  id                     String  @id @default(cuid())
+  cartId                 String
+  cart                   Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId              String
+  product                Product @relation(fields: [productId], references: [id])
+  qty                    Int
+  unitPriceSnapshot      Int
+  unitTokenPriceSnapshot Int?
+
+  @@index([cartId])
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  PROCESSING
+  READY_TO_SHIP
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  PAYMENT_FAILED
+}
+
+enum PaymentMethod {
+  ONLINE_GATEWAY
+  STUDENT_TOKEN
+}
+
+model Order {
+  id                 String        @id @default(cuid())
+  orderNumber        String        @unique
+  userId             String
+  user               User          @relation(fields: [userId], references: [id])
+  buyerType          BuyerType
+  status             OrderStatus   @default(PENDING_PAYMENT)
+  paymentMethod      PaymentMethod
+  subtotalToman      Int
+  shippingToman      Int           @default(0)
+  discountToman      Int           @default(0)
+  totalToman         Int
+  totalTokens        Int?
+  shippingAddress    Json
+  needContributionId String?
+  idempotencyKey     String        @unique
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  items                 OrderItem[]
+  paymentTransactions   PaymentTransaction[]
+  tokenLedgerEntries    TokenLedger[]
+  inventoryReservations InventoryReservation[]
+
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id                     String  @id @default(cuid())
+  orderId                String
+  order                  Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId              String
+  product                Product @relation(fields: [productId], references: [id])
+  nameSnapshot           String
+  qty                    Int
+  unitPriceSnapshot      Int
+  unitTokenPriceSnapshot Int?
+  totalPriceSnapshot     Int
+
+  @@index([orderId])
+}
+
+enum PaymentTransactionStatus {
+  INITIATED
+  SUCCESS
+  FAILED
+}
+
+model PaymentTransaction {
+  id          String                   @id @default(cuid())
+  orderId     String
+  order       Order                    @relation(fields: [orderId], references: [id])
+  gateway     String                   @default("zarinpal")
+  amountToman Int
+  refId       String?
+  status      PaymentTransactionStatus @default(INITIATED)
+  rawResponse Json?
+  createdAt   DateTime                 @default(now())
+
+  @@index([orderId])
+}
+
+enum ReservationStatus {
+  ACTIVE
+  RELEASED
+  CONSUMED
+}
+
+model InventoryReservation {
+  id        String            @id @default(cuid())
+  productId String
+  product   Product           @relation(fields: [productId], references: [id])
+  qty       Int
+  cartId    String?
+  orderId   String?
+  order     Order?            @relation(fields: [orderId], references: [id])
+  expiresAt DateTime
+  status    ReservationStatus @default(ACTIVE)
+
+  @@index([productId])
+  @@index([expiresAt])
+}
+
+// ---------------------------------------------------------------------------
+// Content
+// ---------------------------------------------------------------------------
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model Story {
+  id              String   @id @default(cuid())
+  title           String
+  person          String?
+  excerpt         String
+  body            String
+  coverImage      String?
+  relatedNeedId   String?
+  relatedNeed     Need?    @relation(fields: [relatedNeedId], references: [id])
+  relatedSchoolId String?
+  publishedAt     DateTime @default(now())
+
+  @@index([relatedNeedId])
+}
+
+enum ImpactStatKey {
+  studentsSupported
+  schoolsCount
+  itemsFulfilled
+  totalHelpAmount
+}
+
+model ImpactStat {
+  id        String        @id @default(cuid())
+  key       ImpactStatKey @unique
+  value     BigInt
+  updatedAt DateTime      @updatedAt
+}
+
+enum SchoolNeedRequestStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+}
+
+model SchoolNeedRequest {
+  id           String                  @id @default(cuid())
+  code         String                  @unique
+  schoolId     String?
+  school       SchoolProfile?          @relation(fields: [schoolId], references: [id])
+  schoolName   String
+  schoolCode   String?
+  province     String
+  city         String
+  contactName  String
+  contactPhone String
+  needType     String
+  itemTitle    String
+  itemQty      Int
+  description  String
+  status       SchoolNeedRequestStatus @default(SUBMITTED)
+  reviewerNote String?
+  createdAt    DateTime                @default(now())
+
+  @@index([schoolId])
+  @@index([status])
+}
