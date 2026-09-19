@@ -278,3 +278,239 @@ export const schools: School[] = [
   { id: "school-3", name: "دبستان روستایی نگین", city: "قائنات", province: "خراسان جنوبی", level: "ابتدایی", studentCount: 25, needsCount: 1, fulfilledPct: 35, description: "مدرسه‌ای کوچک روستایی با نیاز جدی به کتاب و منابع آموزشی." },
   { id: "school-4", name: "دبیرستان پسرانه فارابی", city: "اصفهان", province: "اصفهان", level: "متوسطه دوم", studentCount: 310, needsCount: 1, fulfilledPct: 58, description: "نیاز به تجهیز آزمایشگاه علوم برای کلاس‌های عملی." },
 ];
+
+// Demo needs (mirrors prisma/seed.ts) used when DATABASE_URL is not set, so the site can be previewed without a database.
+export const needs: Need[] = [
+  {
+    "id": "backpack-1",
+    "lineItemId": "backpack-1-line",
+    "title": "کوله‌پشتی دانش‌آموزان",
+    "beneficiary": "دانش‌آموزان یک مدرسه در تهران",
+    "location": "تهران",
+    "needed": 240,
+    "fulfilled": 180,
+    "unit": "عدد",
+    "category": "backpack",
+    "audience": "student",
+    "status": "in_progress",
+    "description": "این مدرسه برای شروع سال تحصیلی، به کوله‌پشتی برای دانش‌آموزانی که امکان تهیهٔ آن را ندارند نیاز دارد.",
+    "whyItMatters": "کوله‌پشتی مناسب، یکی از نیازهای اصلی شروع سال تحصیلی است و به دانش‌آموز کمک می‌کند با آرامش بیشتری درس بخواند.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "ابتدایی"
+      },
+      {
+        "label": "شهر",
+        "value": "تهران"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۲۴۰ نفر"
+      }
+    ]
+  },
+  {
+    "id": "board-1",
+    "lineItemId": "board-1-line",
+    "title": "تخته کلاس",
+    "beneficiary": "دبیرستان دخترانه، استان کردستان",
+    "location": "کردستان",
+    "needed": 20,
+    "fulfilled": 9,
+    "unit": "عدد",
+    "category": "board",
+    "audience": "school",
+    "status": "in_progress",
+    "description": "کلاس‌های این دبیرستان به تخته‌های جدید نیاز دارند تا آموزش با کیفیت بهتری انجام شود.",
+    "whyItMatters": "تختهٔ سالم، ابزار پایهٔ تدریس در هر کلاس است.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "متوسطه دوم"
+      },
+      {
+        "label": "شهر",
+        "value": "سنندج"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۴۲۰ نفر"
+      }
+    ]
+  },
+  {
+    "id": "globe-1",
+    "lineItemId": "globe-1-line",
+    "title": "کره جغرافیا",
+    "beneficiary": "کلاس جغرافیای یک مدرسه روستایی",
+    "location": "سیستان و بلوچستان",
+    "needed": 12,
+    "fulfilled": 7,
+    "unit": "عدد",
+    "category": "globe",
+    "audience": "school",
+    "status": "near_complete",
+    "description": "برای آموزش بهتر درس جغرافیا، این مدرسه به کرهٔ جغرافیایی نیاز دارد.",
+    "whyItMatters": "کرهٔ جغرافیایی، مفاهیم انتزاعی جغرافیا را برای دانش‌آموزان ملموس‌تر می‌کند.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "ابتدایی"
+      },
+      {
+        "label": "شهر",
+        "value": "زاهدان"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۹۰ نفر"
+      }
+    ]
+  },
+  {
+    "id": "book-1",
+    "lineItemId": "book-1-line",
+    "title": "کتاب‌های آموزشی",
+    "beneficiary": "۲۵ دانش‌آموز یک مدرسهٔ روستایی",
+    "location": "خراسان جنوبی",
+    "needed": 130,
+    "fulfilled": 45,
+    "unit": "جلد",
+    "category": "book",
+    "audience": "student",
+    "status": "new",
+    "description": "ابزارهای آموزشی و نوشت‌افزار موردنیاز این دانش‌آموزان برای درس خواندن.",
+    "whyItMatters": "دسترسی به کتاب و منابع آموزشی، پایهٔ یادگیری مستمر است.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "ابتدایی"
+      },
+      {
+        "label": "شهر",
+        "value": "قائنات"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۲۵ نفر"
+      }
+    ]
+  },
+  {
+    "id": "lab-1",
+    "lineItemId": "lab-1-line",
+    "title": "تجهیزات آزمایشگاه",
+    "beneficiary": "دبیرستان پسرانه، اصفهان",
+    "location": "اصفهان",
+    "needed": 12,
+    "fulfilled": 7,
+    "unit": "قلم",
+    "category": "lab",
+    "audience": "school",
+    "status": "in_progress",
+    "description": "تجهیز آزمایشگاه علوم برای برگزاری کلاس‌های عملی شیمی و زیست.",
+    "whyItMatters": "آموزش عملی، درک دانش‌آموزان از مفاهیم علمی را عمیق‌تر می‌کند.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "متوسطه دوم"
+      },
+      {
+        "label": "شهر",
+        "value": "اصفهان"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۳۱۰ نفر"
+      }
+    ]
+  },
+  {
+    "id": "sports-1",
+    "lineItemId": "sports-1-line",
+    "title": "تجهیزات ورزشی",
+    "beneficiary": "مدرسهٔ پسرانه، خوزستان",
+    "location": "خوزستان",
+    "needed": 40,
+    "fulfilled": 10,
+    "unit": "قلم",
+    "category": "sports",
+    "audience": "school",
+    "status": "new",
+    "description": "توپ، تور و تجهیزات پایهٔ ورزشی برای زنگ ورزش دانش‌آموزان.",
+    "whyItMatters": "فعالیت بدنی منظم، بخش مهمی از رشد دانش‌آموزان است.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "ابتدایی"
+      },
+      {
+        "label": "شهر",
+        "value": "اهواز"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۲۰۰ نفر"
+      }
+    ]
+  },
+  {
+    "id": "stationery-1",
+    "lineItemId": "stationery-1-line",
+    "title": "لوازم‌التحریر",
+    "beneficiary": "۱۸ دانش‌آموز، لرستان",
+    "location": "لرستان",
+    "needed": 90,
+    "fulfilled": 60,
+    "unit": "بسته",
+    "category": "stationery",
+    "audience": "student",
+    "status": "in_progress",
+    "description": "دفتر، مداد و لوازم‌التحریر پایهٔ موردنیاز دانش‌آموزان.",
+    "whyItMatters": "لوازم‌التحریر کامل، دانش‌آموز را برای حضور فعال در کلاس آماده می‌کند.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "ابتدایی"
+      },
+      {
+        "label": "شهر",
+        "value": "خرم‌آباد"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۱۸ نفر"
+      }
+    ]
+  },
+  {
+    "id": "classroom-1",
+    "lineItemId": "classroom-1-line",
+    "title": "میز و صندلی کلاس",
+    "beneficiary": "مدرسهٔ ابتدایی، گلستان",
+    "location": "گلستان",
+    "needed": 25,
+    "fulfilled": 4,
+    "unit": "دست",
+    "category": "classroom",
+    "audience": "school",
+    "status": "new",
+    "description": "جایگزینی میز و صندلی‌های فرسودهٔ کلاس‌های این مدرسه.",
+    "whyItMatters": "محیط فیزیکی مناسب، پیش‌نیاز یادگیری راحت‌تر است.",
+    "beneficiaryMeta": [
+      {
+        "label": "مقطع",
+        "value": "ابتدایی"
+      },
+      {
+        "label": "شهر",
+        "value": "گرگان"
+      },
+      {
+        "label": "تعداد دانش‌آموزان",
+        "value": "۱۵۰ نفر"
+      }
+    ]
+  }
+];

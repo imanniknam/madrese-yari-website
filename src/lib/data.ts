@@ -9,6 +9,10 @@ import type {
   Prisma,
 } from "@prisma/client";
 import type { Need, Product, Category, Story, School } from "@/lib/mock-data";
+import * as demo from "@/lib/mock-data";
+
+// Without a database (e.g. a preview deploy) the public pages fall back to the demo data in mock-data.ts.
+const DEMO = !process.env.DATABASE_URL;
 
 // Adapts real database rows into the exact view-model shapes the UI components
 // (NeedCard, ProductCard, CategoryCard, ...) already expect from mock-data.ts, so those
@@ -126,6 +130,7 @@ const productInclude = { category: true } satisfies Prisma.ProductInclude;
 const needInclude = { lineItems: true } satisfies Prisma.NeedInclude;
 
 export async function getAllNeeds(): Promise<Need[]> {
+  if (DEMO) return demo.needs;
   const needs = await prisma.need.findMany({ include: needInclude, orderBy: { createdAt: "desc" } });
   return needs.map(toNeed);
 }
@@ -136,11 +141,13 @@ export async function getHomeNeeds(): Promise<Need[]> {
 }
 
 export async function getNeedById(id: string): Promise<Need | null> {
+  if (DEMO) return demo.needs.find((n) => n.id === id) ?? null;
   const need = await prisma.need.findUnique({ where: { id }, include: needInclude });
   return need ? toNeed(need) : null;
 }
 
 export async function getCategories(): Promise<Category[]> {
+  if (DEMO) return demo.categories;
   const categories = await prisma.category.findMany({
     where: { isActive: true },
     include: { _count: { select: { products: true } } },
@@ -150,6 +157,7 @@ export async function getCategories(): Promise<Category[]> {
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  if (DEMO) return demo.categories.find((c) => c.slug === slug) ?? null;
   const category = await prisma.category.findUnique({
     where: { slug },
     include: { _count: { select: { products: true } } },
@@ -158,6 +166,7 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
+  if (DEMO) return demo.featuredProducts;
   const products = await prisma.product.findMany({
     where: { isActive: true },
     include: productInclude,
@@ -167,6 +176,7 @@ export async function getFeaturedProducts(): Promise<Product[]> {
 }
 
 export async function getProductsByCategory(categorySlug: string): Promise<Product[]> {
+  if (DEMO) return demo.featuredProducts.filter((p) => p.categorySlug === categorySlug);
   const products = await prisma.product.findMany({
     where: { isActive: true, category: { slug: categorySlug } },
     include: productInclude,
@@ -176,21 +186,25 @@ export async function getProductsByCategory(categorySlug: string): Promise<Produ
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
+  if (DEMO) return demo.featuredProducts.find((p) => p.slug === slug) ?? null;
   const product = await prisma.product.findUnique({ where: { slug }, include: productInclude });
   return product ? toProduct(product) : null;
 }
 
 export async function getStories(): Promise<Story[]> {
+  if (DEMO) return demo.stories;
   const stories = await prisma.story.findMany({ orderBy: { publishedAt: "desc" } });
   return stories.map(toStory);
 }
 
 export async function getStoryById(id: string): Promise<Story | null> {
+  if (DEMO) return demo.stories.find((x) => x.id === id) ?? null;
   const story = await prisma.story.findUnique({ where: { id } });
   return story ? toStory(story) : null;
 }
 
 export async function getImpactStats() {
+  if (DEMO) return demo.impactStats;
   const stats = await prisma.impactStat.findMany();
   const byKey = new Map(stats.map((s) => [s.key, Number(s.value)]));
   return [
@@ -201,6 +215,7 @@ export async function getImpactStats() {
 }
 
 export async function getSchools(): Promise<School[]> {
+  if (DEMO) return demo.schools;
   const schools = await prisma.schoolProfile.findMany({
     include: { needs: { include: { lineItems: true } } },
     orderBy: { createdAt: "asc" },
@@ -213,6 +228,7 @@ export async function getSchools(): Promise<School[]> {
 }
 
 export async function getSchoolById(id: string): Promise<School | null> {
+  if (DEMO) return demo.schools.find((x) => x.id === id) ?? null;
   const school = await prisma.schoolProfile.findUnique({
     where: { id },
     include: { needs: { include: { lineItems: true } } },
@@ -222,6 +238,7 @@ export async function getSchoolById(id: string): Promise<School | null> {
 }
 
 export async function getNeedsBySchool(schoolId: string): Promise<Need[]> {
+  if (DEMO) return []; // demo needs aren't linked to schools
   const needs = await prisma.need.findMany({ where: { schoolId }, include: needInclude });
   return needs.map(toNeed);
 }
