@@ -11,12 +11,7 @@ import { SectionHeading } from "@/components/domain/section-heading";
 import { productIconMap } from "@/components/domain/product-thumb";
 import { AddToCartButton } from "@/components/domain/add-to-cart-button";
 import { formatToman, formatTokens, formatNumber } from "@/lib/utils";
-import { getFeaturedProducts, getCategories, getProductBySlug, getProductsByCategory } from "@/lib/data";
-
-export async function generateStaticParams() {
-  const featuredProducts = await getFeaturedProducts();
-  return featuredProducts.map((p) => ({ slug: p.slug }));
-}
+import { getCategories, getProductBySlug, getProductsByCategory } from "@/lib/data";
 
 export async function generateMetadata(props: PageProps<"/shop/product/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;

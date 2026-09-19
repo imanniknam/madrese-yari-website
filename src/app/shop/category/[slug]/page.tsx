@@ -8,11 +8,6 @@ import { Select, Input, Label } from "@/components/ui/field";
 import { Badge } from "@/components/ui/badge";
 import { getCategories, getCategoryBySlug, getProductsByCategory, getFeaturedProducts } from "@/lib/data";
 
-export async function generateStaticParams() {
-  const categories = await getCategories();
-  return categories.map((c) => ({ slug: c.slug }));
-}
-
 export async function generateMetadata(props: PageProps<"/shop/category/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
   const category = await getCategoryBySlug(slug);

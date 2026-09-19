@@ -3,12 +3,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { ButtonLink } from "@/components/ui/button-link";
-import { getStories, getStoryById } from "@/lib/data";
-
-export async function generateStaticParams() {
-  const stories = await getStories();
-  return stories.map((s) => ({ id: s.id }));
-}
+import { getStoryById } from "@/lib/data";
 
 export async function generateMetadata(props: PageProps<"/stories/[id]">): Promise<Metadata> {
   const { id } = await props.params;

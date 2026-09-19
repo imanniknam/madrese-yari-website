@@ -5,13 +5,8 @@ import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { NeedCard } from "@/components/domain/need-card";
 import { ButtonLink } from "@/components/ui/button-link";
 import { formatNumber } from "@/lib/utils";
-import { getSchools, getSchoolById, getNeedsBySchool } from "@/lib/data";
+import { getSchoolById, getNeedsBySchool } from "@/lib/data";
 import { MapPin } from "lucide-react";
-
-export async function generateStaticParams() {
-  const schools = await getSchools();
-  return schools.map((s) => ({ id: s.id }));
-}
 
 export async function generateMetadata(props: PageProps<"/schools/[id]">): Promise<Metadata> {
   const { id } = await props.params;

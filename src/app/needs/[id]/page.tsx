@@ -53,11 +53,6 @@ const faq = [
   },
 ];
 
-export async function generateStaticParams() {
-  const allNeeds = await getAllNeeds();
-  return allNeeds.map((n) => ({ id: n.id }));
-}
-
 export async function generateMetadata(props: PageProps<"/needs/[id]">): Promise<Metadata> {
   const { id } = await props.params;
   const need = await getNeedById(id);

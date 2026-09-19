@@ -10,6 +10,9 @@ const vazirmatn = Vazirmatn({
   display: "swap",
 });
 
+// صفحات از دیتابیس می‌خوانند؛ در زمان build به دیتابیس دسترسی نیست.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: {
     default: "مدرسه‌یاری | همراه مدارس، همراه آینده",
