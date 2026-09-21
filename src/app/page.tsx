@@ -1,22 +1,25 @@
-import { Hero } from "@/components/home/hero";
+import { StoreHero } from "@/components/home/store-hero";
+import { ProductSlider } from "@/components/home/product-slider";
+import { CategoryGrid } from "@/components/home/category-grid";
 import { WaysToHelp } from "@/components/home/ways-to-help";
 import { NeedsInProgress } from "@/components/home/needs-in-progress";
-import { ShopTeaser } from "@/components/home/shop-teaser";
-import { StudentSchoolSplit } from "@/components/home/student-school-split";
-import { ProcessSteps } from "@/components/home/process-steps";
 import { ImpactBand } from "@/components/home/impact-band";
 import { StoriesSection } from "@/components/home/stories-section";
 import { FinalCta } from "@/components/home/final-cta";
+import { getCategories, getFeaturedProducts } from "@/lib/data";
 
-export default function Home() {
+export default async function Home() {
+  const [categories, products] = await Promise.all([getCategories(), getFeaturedProducts()]);
+  const inStock = products.filter((p) => p.stock !== "out_of_stock");
+
   return (
     <>
-      <Hero />
-      <WaysToHelp />
+      <StoreHero categories={categories} />
+      <ProductSlider title="محصولات ویژه" href="/shop" products={inStock} />
+      <CategoryGrid categories={categories} />
+      <ProductSlider title="مناسب سفارش مدارس" href="/shop/school" products={inStock.filter((p) => p.bulkAvailable).reverse()} tone="tint" />
       <NeedsInProgress />
-      <ShopTeaser />
-      <StudentSchoolSplit />
-      <ProcessSteps />
+      <WaysToHelp />
       <ImpactBand />
       <StoriesSection />
       <FinalCta />

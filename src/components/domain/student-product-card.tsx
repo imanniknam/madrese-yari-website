@@ -22,7 +22,7 @@ export function StudentProductCard({ product, credit }: { product: Product; cred
     <Link
       href={`/shop/product/${product.slug}`}
       className={cn(
-        "group flex flex-col gap-3 rounded-card border border-brand-100 bg-white p-5 shadow-[0_10px_30px_-18px_rgba(16,44,31,0.3)] transition-transform",
+        "group flex flex-col gap-3 rounded-card border border-brand-100 bg-white p-5 shadow-[0_10px_30px_-18px_rgba(12,34,66,0.3)] transition-transform",
         affordable ? "hover:-translate-y-1" : "opacity-90"
       )}
     >

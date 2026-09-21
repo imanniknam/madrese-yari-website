@@ -21,12 +21,12 @@ export function IconTile({
   return (
     <div
       className={cn(
-        "relative flex h-16 w-16 items-center justify-center rounded-[22px] shadow-[0_8px_20px_-8px_rgba(16,44,31,0.35)]",
+        "relative flex h-16 w-16 items-center justify-center rounded-[22px] shadow-[0_8px_20px_-8px_rgba(12,34,66,0.35)]",
         tones[tone],
         className
       )}
     >
-      <div className="drop-shadow-[0_2px_2px_rgba(16,44,31,0.15)]">{children}</div>
+      <div className="drop-shadow-[0_2px_2px_rgba(12,34,66,0.15)]">{children}</div>
     </div>
   );
 }

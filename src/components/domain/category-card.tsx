@@ -30,7 +30,7 @@ export function CategoryCard({ category }: { category: Category }) {
   return (
     <Link
       href={`/shop/category/${category.slug}`}
-      className="group flex flex-col items-center gap-3 rounded-card border border-brand-100 bg-white p-5 text-center transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(16,44,31,0.35)]"
+      className="group flex flex-col items-center gap-3 rounded-card border border-brand-100 bg-white p-5 text-center transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(12,34,66,0.35)]"
     >
       <IconTile tone="brand">{iconMap[category.icon]}</IconTile>
       <div>

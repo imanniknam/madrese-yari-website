@@ -158,7 +158,7 @@ export default async function NeedDetailPage(props: PageProps<"/needs/[id]">) {
 
           {/* ستون مشارکت */}
           <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-card border border-brand-100 bg-white p-6 shadow-[0_20px_40px_-24px_rgba(16,44,31,0.35)]">
+            <div className="rounded-card border border-brand-100 bg-white p-6 shadow-[0_20px_40px_-24px_rgba(12,34,66,0.35)]">
               <h3 className="text-base font-bold text-ink-900">در تأمین این نیاز سهیم شوید</h3>
               <p className="mt-1.5 text-xs leading-6 text-ink-500">
                 می‌توانید بخشی از نیاز را تأمین کنید، کل نیاز باقی‌مانده را تأمین کنید یا از اعتبار خود استفاده کنید.
