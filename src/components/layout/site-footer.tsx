@@ -80,8 +80,8 @@ export function SiteFooter() {
       </Container>
       <div className="border-t border-white/10 py-5">
         <Container className="flex flex-col items-center justify-between gap-2 text-xs text-sand-300 sm:flex-row">
-          <span>© {new Date().getFullYear()} مدرسه‌یاری — زیرمجموعهٔ جامعهٔ خیرین مدرسه‌ساز</span>
-          <span>با هم، آیندهٔ بهتری بسازیم.</span>
+          <span>© {new Date().getFullYear()} مدرسه‌یاری</span>
+          <span>طراحی سایت توسط تیم شمیم</span>
         </Container>
       </div>
     </footer>

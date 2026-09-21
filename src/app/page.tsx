@@ -7,11 +7,16 @@ import { ProcessSteps } from "@/components/home/process-steps";
 import { ImpactBand } from "@/components/home/impact-band";
 import { StoriesSection } from "@/components/home/stories-section";
 import { FinalCta } from "@/components/home/final-cta";
+import { ProductSlider } from "@/components/home/product-slider";
+import { getFeaturedProducts } from "@/lib/data";
 
-export default function Home() {
+export default async function Home() {
+  const products = (await getFeaturedProducts()).filter((p) => p.stock !== "out_of_stock");
+
   return (
     <>
       <Hero />
+      <ProductSlider title="محصولات فروشگاه" href="/shop" products={products} />
       <WaysToHelp />
       <NeedsInProgress />
       <ShopTeaser />

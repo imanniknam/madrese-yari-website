@@ -20,7 +20,7 @@ export function ProductCard({ product, showBulkBadge }: { product: Product; show
   return (
     <Link
       href={`/shop/product/${product.slug}`}
-      className="group flex flex-col gap-3 rounded-card border border-brand-100 bg-white p-5 shadow-[0_10px_30px_-18px_rgba(16,44,31,0.3)] transition-transform hover:-translate-y-1"
+      className="group flex flex-col gap-3 rounded-card border border-brand-100 bg-white p-5 shadow-[0_10px_30px_-18px_rgba(12,34,66,0.3)] transition-transform hover:-translate-y-1"
     >
       <div className="flex items-center justify-between">
         <IconTile tone="gold">

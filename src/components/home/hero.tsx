@@ -63,7 +63,7 @@ export function Hero() {
             </div>
 
             {/* ویجت «یک کلاس» */}
-            <div className="absolute left-5 top-6 hidden w-40 rounded-2xl bg-white/90 p-3.5 shadow-[0_16px_30px_-16px_rgba(16,44,31,0.4)] backdrop-blur lg:block">
+            <div className="absolute left-5 top-6 hidden w-40 rounded-2xl bg-white/90 p-3.5 shadow-[0_16px_30px_-16px_rgba(12,34,66,0.4)] backdrop-blur lg:block">
               <div className="flex items-center gap-1.5 border-b border-brand-100 pb-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-700 text-white">
                   <SchoolMarkIcon />
@@ -85,14 +85,14 @@ export function Hero() {
             {/* کارت شناور «نیاز در حال تأمین» */}
             <div className="absolute inset-x-4 -bottom-10 sm:inset-x-10 lg:inset-x-auto lg:bottom-auto lg:-left-10 lg:top-[74%] lg:w-[270px] lg:-translate-y-1/2">
               {/* نشان اعتبار */}
-              <div className="absolute -top-6 right-4 z-10 flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 shadow-[0_10px_25px_-12px_rgba(16,44,31,0.45)]">
+              <div className="absolute -top-6 right-4 z-10 flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 shadow-[0_10px_25px_-12px_rgba(12,34,66,0.45)]">
                 <span className="text-gold-600">
                   <CoinIcon width={16} height={16} />
                 </span>
                 <span className="text-xs font-bold text-ink-900">{formatNumber(250)} اعتبار</span>
               </div>
 
-              <div className="rounded-3xl border border-brand-100 bg-white p-4 shadow-[0_25px_50px_-20px_rgba(16,44,31,0.45)]">
+              <div className="rounded-3xl border border-brand-100 bg-white p-4 shadow-[0_25px_50px_-20px_rgba(12,34,66,0.45)]">
                 <div className="flex items-start gap-3">
                   <IconTile tone="brand" className="h-14 w-14 shrink-0 rounded-2xl">
                     <BackpackIcon width={26} height={26} />
