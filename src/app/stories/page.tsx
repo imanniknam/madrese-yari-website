@@ -25,7 +25,7 @@ export default async function StoriesPage() {
             <Link
               key={story.id}
               href={`/stories/${story.id}`}
-              className="group overflow-hidden rounded-card border border-brand-100 bg-white transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(12,34,66,0.35)]"
+              className="group overflow-hidden rounded-card border border-brand-100 bg-white transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(16,44,31,0.35)]"
             >
               <div className={`h-40 bg-gradient-to-br ${palettes[i % palettes.length]}`} />
               <div className="p-5">

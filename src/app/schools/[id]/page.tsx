@@ -25,7 +25,7 @@ export default async function SchoolDetailPage(props: PageProps<"/schools/[id]">
     <>
       <div className="h-52 bg-gradient-to-br from-brand-300 via-brand-500 to-brand-700 sm:h-64" />
       <Container className="relative -mt-16 pb-14">
-        <div className="rounded-card border border-brand-100 bg-white p-6 shadow-[0_20px_40px_-24px_rgba(12,34,66,0.35)] sm:p-8">
+        <div className="rounded-card border border-brand-100 bg-white p-6 shadow-[0_20px_40px_-24px_rgba(16,44,31,0.35)] sm:p-8">
           <Breadcrumb items={[{ label: "خانه", href: "/" }, { label: "مدارس", href: "/schools" }, { label: school.name }]} />
           <h1 className="mt-4 text-2xl font-extrabold text-ink-900 sm:text-[28px]">{school.name}</h1>
           <p className="mt-1.5 flex items-center gap-1.5 text-sm text-ink-500">

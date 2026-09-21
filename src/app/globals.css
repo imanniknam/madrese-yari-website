@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* --- برند مدرسه‌یاری: آبی سرمه‌ای + سفید + طلایی --- */
-  --brand-50: #eef3fb;
-  --brand-100: #dbe6f6;
-  --brand-200: #b7cdec;
-  --brand-300: #88abdb;
-  --brand-400: #5586c6;
-  --brand-500: #2f65ad;
-  --brand-600: #1f4f95;
-  --brand-700: #17407a;
-  --brand-800: #112f5c;
-  --brand-900: #0c2242;
-  --brand-950: #081729;
+  /* --- برند مدرسه‌یاری: سبز جنگلی گرم + کرم روشن + طلایی --- */
+  --brand-50: #eef8f1;
+  --brand-100: #d7eee0;
+  --brand-200: #b0ddc2;
+  --brand-300: #7fc79f;
+  --brand-400: #4da87a;
+  --brand-500: #2f8c5f;
+  --brand-600: #227049;
+  --brand-700: #1c5a3c;
+  --brand-800: #163f2b;
+  --brand-900: #102c1f;
+  --brand-950: #0b1f16;
 
   --gold-100: #fbecc9;
   --gold-300: #f0c86a;
@@ -20,19 +20,19 @@
   --gold-600: #c48724;
   --gold-700: #a36c1f;
 
-  --sand-50: #fbfcfe;
-  --sand-100: #f3f6fb;
-  --sand-200: #e6ecf5;
-  --sand-300: #c9d4e6;
+  --sand-50: #fefcf8;
+  --sand-100: #faf6ec;
+  --sand-200: #f3ecda;
+  --sand-300: #e9dfc3;
 
   --sky-100: #e7f0fb;
   --sky-200: #cfe2f6;
   --sky-600: #3f74ad;
 
-  --ink-900: #142033;
-  --ink-700: #2b3a52;
-  --ink-500: #5a6a82;
-  --ink-300: #94a3b8;
+  --ink-900: #16201b;
+  --ink-700: #2c372f;
+  --ink-500: #5b6a60;
+  --ink-300: #94a39a;
 
   --background: var(--sand-50);
   --foreground: var(--ink-900);

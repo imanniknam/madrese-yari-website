@@ -41,7 +41,7 @@ export function WaysToHelp() {
               key={way.id}
               href={way.href}
               className={cn(
-                "group flex flex-col gap-4 rounded-card border p-6 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-24px_rgba(12,34,66,0.4)]",
+                "group flex flex-col gap-4 rounded-card border p-6 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-24px_rgba(16,44,31,0.4)]",
                 cardBg[way.id as keyof typeof cardBg]
               )}
             >

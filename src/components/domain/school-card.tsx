@@ -9,7 +9,7 @@ export function SchoolCard({ school }: { school: School }) {
   return (
     <Link
       href={`/schools/${school.id}`}
-      className="group flex flex-col gap-4 rounded-card border border-brand-100 bg-white p-5 transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(12,34,66,0.35)]"
+      className="group flex flex-col gap-4 rounded-card border border-brand-100 bg-white p-5 transition-all hover:-translate-y-1 hover:shadow-[0_16px_32px_-20px_rgba(16,44,31,0.35)]"
     >
       <div className="h-28 rounded-2xl bg-gradient-to-br from-brand-200 via-brand-300 to-brand-400" />
       <div>
