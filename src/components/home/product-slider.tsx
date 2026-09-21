@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
-import { ProductCard } from "@/components/domain/product-card";
+import { ProductSlideCard } from "@/components/home/product-slide-card";
 import { SliderShell } from "@/components/home/slider-shell";
 import type { Product } from "@/lib/mock-data";
 
@@ -26,8 +26,8 @@ export function ProductSlider({
         </div>
         <SliderShell>
           {products.map((p) => (
-            <div key={p.id} className="w-[220px] shrink-0 snap-start sm:w-[250px]">
-              <ProductCard product={p} />
+            <div key={p.id} className="w-[240px] shrink-0 snap-start sm:w-[260px]">
+              <ProductSlideCard product={p} />
             </div>
           ))}
         </SliderShell>
